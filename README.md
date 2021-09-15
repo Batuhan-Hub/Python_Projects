@@ -1,3 +1,3 @@
 # Python_Projects
 
-  I share here my Python projects
+  I share my Python projects here.
