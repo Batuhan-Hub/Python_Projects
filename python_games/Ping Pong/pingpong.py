@@ -1,6 +1,4 @@
-
-
-import pygame, sys, random
+import pygame,random
 
 clock = pygame.time.Clock()
 green=(0,255,0)
@@ -15,8 +13,7 @@ pygame.mixer.music.load(file)
 
 screen=pygame.display.set_mode((500,500))
 pygame.display.set_caption('Ping Pong')
-SCREEN_UPDATE =pygame.USEREVENT
-pygame.time.set_timer(SCREEN_UPDATE,45)
+
 
 
 
@@ -34,7 +31,7 @@ class Stick:
 
 		pygame.draw.rect(screen, color, (self.left,self.top,self.width, self.height) )
 		
-		pygame.display.flip()
+		
 	def move(self):
 		velocity=5
 		if self.top != 0 and self.top + self.height != 500:				
@@ -97,8 +94,8 @@ class Ball:
 
 	def draw_ball(self):
 		pygame.draw.circle(screen, (253,245,230), self.center, self.radius)
-	
-			
+		
+		pygame.display.flip()	
 		
 	def collision_player(self,check=False):
 		velocity_x=6
@@ -152,7 +149,12 @@ class Ball:
 			self.center[1] = self.center[1] -velocity_y
 
 	
-		
+def author_show():
+	font = pygame.font.Font('freesansbold.ttf', 20)
+	text = font.render('By Batuhan Uzun', True, green)
+	textRect = text.get_rect()
+	textRect.center = (410, 480)
+	screen.blit(text, textRect)		
 
 			
 
@@ -162,7 +164,7 @@ ball=Ball()
 player=Stick(20,20,20,150)
 stick1=Stick(470,20,20,150)
 
-player_turn=True
+
 game_on=True
 velocity_y=0
 def stay_in (velocity_y):
@@ -178,6 +180,7 @@ while game_on:
 
 
 	screen.fill((48,48,48))
+	author_show()
 	player.score()
 	stick1.score_computer()
 	
@@ -203,10 +206,10 @@ while game_on:
 			
 
 			
-		if ball.center[0] <= 0:
+		if ball.center[0]+15 < 0:
 
 			stick1.score_stick=stick1.score_stick+1
-			pygame.time.wait(500)
+			pygame.time.wait(300)
 			player.top=250
 			stick1.top=250
 			ball.center= [250,250]
@@ -219,20 +222,16 @@ while game_on:
 			velocity_y=random.randint(-4,4)
 			
 			
-		if ball.center[0] >= 500:
+		if ball.center[0]-15 > 500:
 			player.score_player =player.score_player +1
-			pygame.time.wait(500)
+			pygame.time.wait(300)
 			player.top=250
 			stick1.top=250
 			ball.center= [250,250]
 	
 	velocity_y=stay_in(velocity_y)
-	font = pygame.font.Font('freesansbold.ttf', 20)
 	
-	text = font.render('By Batuhan Uzun', True, green)
-	textRect = text.get_rect()
-	textRect.center = (410, 480)
-	screen.blit(text, textRect)
+	
 	
 	pygame.display.update()
-	clock.tick(100)
+	clock.tick(110)
